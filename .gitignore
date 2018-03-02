@@ -21,3 +21,5 @@ data/conf/nginx/*.conf
 data/conf/nginx/*.custom
 data/conf/nginx/*.bak
 data/conf/dovecot/extra.conf
+node_modules/
+tmp/

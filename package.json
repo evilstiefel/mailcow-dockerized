@@ -1,0 +1,27 @@
+{
+  "name": "mailcow-dockerized",
+  "version": "1.0.0",
+  "description": "[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=JWBSYHF4SMC68)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mailcow/mailcow-dockerized.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mailcow/mailcow-dockerized/issues"
+  },
+  "homepage": "https://github.com/mailcow/mailcow-dockerized#readme",
+  "devDependencies": {
+    "glob": "^7.1.2",
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.10"
+  },
+  "dependencies": {
+    "jquery": "^1.12.4"
+  }
+}
