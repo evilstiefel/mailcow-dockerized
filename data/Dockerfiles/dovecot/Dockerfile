@@ -11,9 +11,11 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
   autotools-dev \
   build-essential \
   ca-certificates \
+  cmake \
   cpanminus \
   curl \
   default-libmysqlclient-dev \
+  git \
   libjson-webtoken-perl \
   libcgi-pm-perl \
   libcrypt-openssl-rsa-perl \
@@ -37,7 +39,6 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
   libio-tee-perl \
   libipc-run-perl \
   liblockfile-simple-perl \
-  libclucene-dev \
   liblz-dev \
   liblz4-dev \
   liblzma-dev \
@@ -58,15 +59,22 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
   make \
   procps \
   supervisor \
+  telnet \
   cron \
   syslog-ng \
   syslog-ng-core \
   syslog-ng-mod-redis \
   && rm -rf /var/lib/apt/lists/*
 
+RUN git clone git://clucene.git.sourceforge.net/gitroot/clucene/clucene \
+  && cd clucene \
+  && mkdir build \
+  && cd build \
+  && cmake .. \
+  && make -j 3 \
+  && make install
 
 RUN curl https://www.dovecot.org/releases/2.2/dovecot-$DOVECOT_VERSION.tar.gz | tar xvz  \
-  && cp /usr/lib/x86_64-linux-gnu/CLucene/clucene-config.h /usr/include/CLucene/ \
   && cd dovecot-$DOVECOT_VERSION \
   && curl -o src/lib-auth/auth-client-request.c https://mailcow.email/dovecot-patch1/auth-client-request.c \
   && curl -o src/lib-auth/auth-server-connection.c https://mailcow.email/dovecot-patch1/auth-server-connection.c \
@@ -114,7 +122,7 @@ RUN groupadd -g 5000 vmail \
   && useradd -c "Dovecot login user" -d /dev/null -u 402 -g dovenull -s /bin/false dovenull
 
 RUN touch /etc/default/locale
-RUN apt-get purge -y build-essential automake autotools-dev \
+RUN apt-get purge -y build-essential automake autotools-dev git cmake \
   && apt-get autoremove --purge -y
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
