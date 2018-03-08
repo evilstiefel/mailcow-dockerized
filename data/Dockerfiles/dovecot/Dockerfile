@@ -37,6 +37,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
   libio-tee-perl \
   libipc-run-perl \
   liblockfile-simple-perl \
+  libclucene-dev \
   liblz-dev \
   liblz4-dev \
   liblzma-dev \
@@ -46,6 +47,7 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
   libpar-packer-perl \
   libreadonly-perl \
   libssl-dev \
+  libstemmer-dev \
   libterm-readkey-perl \
   libtest-pod-perl \
   libtest-simple-perl \
@@ -64,11 +66,12 @@ RUN apt-get update && apt-get -y --no-install-recommends install \
 
 
 RUN curl https://www.dovecot.org/releases/2.2/dovecot-$DOVECOT_VERSION.tar.gz | tar xvz  \
+  && cp /usr/lib/x86_64-linux-gnu/CLucene/clucene-config.h /usr/include/CLucene/ \
   && cd dovecot-$DOVECOT_VERSION \
   && curl -o src/lib-auth/auth-client-request.c https://mailcow.email/dovecot-patch1/auth-client-request.c \
   && curl -o src/lib-auth/auth-server-connection.c https://mailcow.email/dovecot-patch1/auth-server-connection.c \
   && curl -o src/lib-auth/auth-server-connection.h https://mailcow.email/dovecot-patch1/auth-server-connection.h \
-  && ./configure --with-mysql --with-lzma --with-lz4 --with-ssl=openssl --with-notify=inotify --with-storages=mdbox,sdbox,maildir,mbox,imapc,pop3c --with-bzlib --with-zlib \
+  && ./configure --with-lucene --with-stemmer --with-mysql --with-lzma --with-lz4 --with-ssl=openssl --with-notify=inotify --with-storages=mdbox,sdbox,maildir,mbox,imapc,pop3c --with-bzlib --with-zlib \
   && make -j3 \
   && make install \
   && make clean \
@@ -120,4 +123,3 @@ CMD exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
 RUN rm -rf \
   /tmp/* \
   /var/tmp/*
-
